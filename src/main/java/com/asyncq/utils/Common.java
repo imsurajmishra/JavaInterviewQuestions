@@ -1,5 +1,6 @@
 package com.asyncq.utils;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -69,6 +70,30 @@ public class Common {
         }
 
         return name.toString() + tld;
+    }
+
+    public List<String> getEmailList(){
+        List<String> domains = List.of("gmail.com", "abc.com", "pqr.net");
+
+        List<String> emails = IntStream.rangeClosed(1, 10)
+            .mapToObj(i -> getUserName() + "@" + domains.get(new Random().nextInt(domains.size() - 1)))
+            .collect(Collectors.toList());
+        emails.add("abc@abc.com");
+        emails.add("abc@abc.com");
+        emails.add("pqr@pqr.com");
+        emails.add("pqr@pqr.com");
+        return emails;
+    }
+
+    public String getUserName(){
+        String inputChars = "abcdefghijklmnopqrstuvwxyzz1234567890";
+        StringBuilder name = new StringBuilder();
+        Random rnd = new Random();
+        while (name.length() < 10){
+            name.append(inputChars.charAt(rnd.nextInt(inputChars.length()-1)));
+        }
+
+        return name.toString();
     }
 }
 
