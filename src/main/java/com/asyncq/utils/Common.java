@@ -1,6 +1,10 @@
 package com.asyncq.utils;
 
-import java.util.Collection;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -94,6 +98,38 @@ public class Common {
         }
 
         return name.toString();
+    }
+
+    public List<ApplicationLog> getSampleLogs(){
+        return IntStream.rangeClosed(1,100)
+            .mapToObj(this::toApplicationLogs)
+            .toList();
+    }
+
+    private ApplicationLog toApplicationLogs(int i) {
+        List<String> tags = List.of("server-1", "tag-1","data-1","server-2", "tag-2","data-2", "server-3", "server-4", "tag-4","data-4");
+        List<Integer> nWeeks = List.of(1,2,3,4,5,6,7,8,9,10);
+        return new ApplicationLog(
+            UUID.randomUUID().toString(),
+            "Logs "+i,
+            getTags(tags),
+            Date.from(
+                ZonedDateTime
+                    .now()
+                    .minusDays(
+                        nWeeks.get(new Random().nextInt(nWeeks.size()))
+                    )
+                .toInstant()
+            )
+        );
+    }
+
+    private static List<String> getTags(List<String> tags) {
+        return List.of(
+            tags.get(new Random().nextInt(tags.size())),
+            tags.get(new Random().nextInt(tags.size())),
+            tags.get(new Random().nextInt(tags.size()))
+        );
     }
 }
 
